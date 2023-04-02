@@ -1,8 +1,10 @@
 import { ConsoleLogger, Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { configService } from './core/config/config.service';
 import { HttpExceptionFilter } from './core/exceptions/http-exception.filter';
 import { setupSwagger } from './shared/utils/setup-swagger';
+
 
 async function bootstrap() {
   const logger = new Logger();
@@ -14,7 +16,9 @@ async function bootstrap() {
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe());
 
-  setupSwagger(app);
+  if(!configService.isProduction()){
+    setupSwagger(app);
+  }
 
   //* Here we add our microservices
 

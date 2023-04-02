@@ -18,7 +18,7 @@ class ConfigService {
 
   public isProduction() {
     const mode = this.getValue('NODE_ENV', false);
-    return mode != 'development';
+    return mode == 'prod' || mode == 'production';
   }
 
   public getDatabaseOrmConfig(): TypeOrmModuleOptions {
