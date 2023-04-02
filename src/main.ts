@@ -1,6 +1,7 @@
 import { ConsoleLogger, Logger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { HttpExceptionFilter } from './shared/exceptions/http-exception.filter';
 import { setupSwagger } from './shared/utils/setup-swagger';
 
 async function bootstrap() {
@@ -9,6 +10,8 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: new ConsoleLogger(),
   });
+
+  app.useGlobalFilters(new HttpExceptionFilter());
 
   setupSwagger(app);
 
